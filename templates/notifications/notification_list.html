@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}Notification Audit Logs - Bus Sacco{% endblock %}
+
+{% block content %}
+<h2>Notification Audit Logs</h2>
+<p style="color: var(--text-muted); margin-bottom: 1.5rem;">
+  Recent SMS and Email notifications dispatched by the Bus Sacco application.
+</p>
+
+{% if notifications %}
+<div class="card" style="padding: 0; overflow-x: auto;">
+  <table style="width: 100%; border-collapse: collapse; text-align: left;">
+    <thead>
+      <tr style="border-bottom: 1px solid var(--border-light); background: rgba(15, 23, 42, 0.4);">
+        <th style="padding: 1rem;">Recipient</th>
+        <th style="padding: 1rem;">Message Content</th>
+        <th style="padding: 1rem;">Status</th>
+        <th style="padding: 1rem;">Timestamp</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for log in notifications %}
+      <tr style="border-bottom: 1px solid var(--border-light);">
+        <td style="padding: 1rem; font-weight: 600;">{{ log.recipient }}</td>
+        <td style="padding: 1rem; color: var(--text-muted); font-size: 0.9rem;">{{ log.message }}</td>
+        <td style="padding: 1rem;">
+          {% if log.status == 'SENT' %}
+            <span class="badge badge-emerald">SENT</span>
+          {% else %}
+            <span class="badge badge-rose">FAILED</span>
+          {% endif %}
+        </td>
+        <td style="padding: 1rem; font-size: 0.85rem; color: var(--text-muted);">{{ log.created_at|date:"Y-m-d H:i:s" }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<div class="card" style="text-align: center; padding: 3rem;">
+  <p style="color: var(--text-muted);">No notification logs found.</p>
+</div>
+{% endif %}
+{% endblock %}

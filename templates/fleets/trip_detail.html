@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block title %}Trip Details - Bus Sacco{% endblock %}
+
+{% block content %}
+<div style="margin-bottom: 1.5rem;">
+  <a href="{% url 'fleets:trip_list' %}" class="btn btn-secondary btn-sm">← Back to Trips</a>
+</div>
+
+<div class="card" style="margin-bottom: 2rem;">
+  <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; align-items: center;">
+    <div>
+      <h1 style="font-size: 1.8rem; margin-bottom: 0.5rem;">
+        {{ trip.route.departure_city }} to {{ trip.route.destination_city }}
+      </h1>
+      <p style="color: var(--text-muted);">
+        Bus: <strong>{{ trip.bus.plate_number }}</strong> (Capacity: {{ trip.bus.total_seats }} seats) | 
+        Departure: <strong>{{ trip.departure_time|date:"Y-m-d H:i" }}</strong>
+      </p>
+    </div>
+    <div>
+      <span class="price-tag">KES {{ trip.route.price }}</span>
+    </div>
+  </div>
+</div>
+
+<h2>Interactive Seat Map</h2>
+<p style="color: var(--text-muted); margin-bottom: 1.5rem;">
+  Click an available (green) seat to reserve it.
+</p>
+
+<div class="seat-map-container">
+  <div class="seat-legend">
+    <div class="legend-item">
+      <div class="seat-sample" style="background: rgba(16, 185, 129, 0.2); border: 2px solid var(--accent-emerald);"></div>
+      <span>Available</span>
+    </div>
+    <div class="legend-item">
+      <div class="seat-sample" style="background: rgba(245, 158, 11, 0.2); border: 2px solid var(--accent-amber);"></div>
+      <span>Pending</span>
+    </div>
+    <div class="legend-item">
+      <div class="seat-sample" style="background: rgba(239, 68, 68, 0.2); border: 2px solid var(--accent-rose);"></div>
+      <span>Confirmed / Taken</span>
+    </div>
+  </div>
+
+  <div class="seat-grid">
+    {% for seat in seat_grid %}
+      {% if seat.status == 'available' %}
+        <a href="{% url 'bookings:create_booking' trip.pk %}?seat={{ seat.number }}" class="seat-btn">
+          Seat #{{ seat.number }}
+        </a>
+      {% elif seat.status == 'pending' %}
+        <div class="seat-btn disabled pending">
+          Seat #{{ seat.number }} (Pending)
+        </div>
+      {% else %}
+        <div class="seat-btn disabled confirmed">
+          Seat #{{ seat.number }} (Taken)
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

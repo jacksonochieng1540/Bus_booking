@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}Book Seat - Bus Sacco{% endblock %}
+
+{% block content %}
+<div style="margin-bottom: 1.5rem;">
+  <a href="{% url 'fleets:trip_detail' trip.pk %}" class="btn btn-secondary btn-sm">← Back to Seat Selection</a>
+</div>
+
+<div style="max-width: 600px; margin: 0 auto;">
+  <div class="card" style="margin-bottom: 1.5rem;">
+    <h2 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Reservation Details</h2>
+    <p style="color: var(--text-muted); font-size: 0.95rem;">
+      Route: <strong>{{ trip.route.departure_city }} ➔ {{ trip.route.destination_city }}</strong><br>
+      Bus: <strong>{{ trip.bus.plate_number }}</strong> (Max Seats: {{ trip.bus.total_seats }})<br>
+      Departure: <strong>{{ trip.departure_time|date:"Y-m-d H:i" }}</strong><br>
+      Fare Amount: <strong style="color: var(--accent-emerald);">KES {{ trip.route.price }}</strong>
+    </p>
+  </div>
+
+  <div class="search-card">
+    <form method="POST">
+      {% csrf_token %}
+      
+      {% if form.non_field_errors %}
+      <div class="alert alert-error">
+        {% for error in form.non_field_errors %}
+        <p>{{ error }}</p>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      <div class="form-group" style="margin-bottom: 1rem;">
+        <label for="id_passenger_name">Passenger Full Name</label>
+        <input type="text" name="passenger_name" id="id_passenger_name" value="{{ form.passenger_name.value|default:'' }}" class="input-control" required placeholder="e.g. Jane Doe">
+        {% if form.passenger_name.errors %}
+        <span style="color: #f87171; font-size: 0.85rem;">{{ form.passenger_name.errors.0 }}</span>
+        {% endif %}
+      </div>
+
+      <div class="form-group" style="margin-bottom: 1rem;">
+        <label for="id_passenger_phone">M-Pesa Phone Number</label>
+        <input type="text" name="passenger_phone" id="id_passenger_phone" value="{{ form.passenger_phone.value|default:'' }}" class="input-control" required placeholder="e.g. 0712345678">
+        {% if form.passenger_phone.errors %}
+        <span style="color: #f87171; font-size: 0.85rem;">{{ form.passenger_phone.errors.0 }}</span>
+        {% endif %}
+      </div>
+
+      <div class="form-group" style="margin-bottom: 1.5rem;">
+        <label for="id_seat_number">Seat Number (1 - {{ trip.bus.total_seats }})</label>
+        <input type="number" name="seat_number" id="id_seat_number" value="{{ form.seat_number.value|default:'' }}" class="input-control" required min="1" max="{{ trip.bus.total_seats }}">
+        {% if form.seat_number.errors %}
+        <span style="color: #f87171; font-size: 0.85rem;">{{ form.seat_number.errors.0 }}</span>
+        {% endif %}
+      </div>
+
+      <button type="submit" class="btn" style="width: 100%;">Proceed to Payment</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

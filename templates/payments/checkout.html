@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}Checkout & Payment - SafariSacco{% endblock %}
+
+{% block content %}
+<div style="max-width: 600px; margin: 2rem auto;">
+  <div class="card" style="text-align: center;">
+    <h2 style="font-size: 1.8rem; font-weight: 900; color: var(--sacco-navy); margin-bottom: 0.5rem;">
+      M-Pesa Express Checkout
+    </h2>
+    <p style="color: var(--sacco-text-muted); margin-bottom: 1.5rem;">
+      Enter your Safaricom M-Pesa phone number below to receive an STK Push PIN prompt.
+    </p>
+
+    <form method="POST" action="{% url 'payments:initiate_payment' %}">
+      {% csrf_token %}
+      <input type="hidden" name="booking_id" value="{{ booking.id }}">
+      <div style="margin-bottom: 1.5rem; text-align: left;">
+        <label style="display: block; font-size: 0.8rem; font-weight: 800; color: var(--sacco-text-muted); margin-bottom: 0.4rem; text-transform: uppercase;">
+          M-PESA PHONE NUMBER
+        </label>
+        <input type="text" name="phone_number" value="{{ booking.passenger_phone }}" required placeholder="0712345678" style="width: 100%; padding: 0.85rem; border: 1px solid var(--sacco-border); border-radius: 0.5rem; font-size: 1rem; outline: none;">
+      </div>
+
+      <button type="submit" class="btn" style="width: 100%; font-size: 1.1rem; padding: 0.9rem;">
+        Send M-Pesa STK Prompt ➔
+      </button>
+    </form>
+  </div>
+</div>
+{% endblock %}

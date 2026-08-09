@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Reserve Seat - SafariSacco{% endblock %}
+
+{% block content %}
+<div style="max-width: 600px; margin: 2rem auto;">
+  <div class="card">
+    <h2 style="font-size: 1.6rem; font-weight: 900; color: var(--sacco-navy); margin-bottom: 1rem;">
+      Reserve Your Coach Seat
+    </h2>
+    <p style="color: var(--sacco-text-muted); margin-bottom: 1.5rem;">
+      Selected Seat: <strong style="color: var(--sacco-green);">Seat #{{ seat_number }}</strong>
+    </p>
+
+    <form method="POST">
+      {% csrf_token %}
+      <input type="hidden" name="seat_number" value="{{ seat_number }}">
+
+      <div style="margin-bottom: 1.25rem;">
+        <label style="display: block; font-size: 0.8rem; font-weight: 800; color: var(--sacco-text-muted); margin-bottom: 0.4rem; text-transform: uppercase;">
+          PASSENGER FULL NAME
+        </label>
+        <input type="text" name="passenger_name" required placeholder="e.g. Jane Doe" style="width: 100%; padding: 0.85rem; border: 1px solid var(--sacco-border); border-radius: 0.5rem; font-size: 1rem;">
+      </div>
+
+      <div style="margin-bottom: 1.5rem;">
+        <label style="display: block; font-size: 0.8rem; font-weight: 800; color: var(--sacco-text-muted); margin-bottom: 0.4rem; text-transform: uppercase;">
+          M-PESA PHONE NUMBER
+        </label>
+        <input type="text" name="passenger_phone" required placeholder="e.g. 0712345678" style="width: 100%; padding: 0.85rem; border: 1px solid var(--sacco-border); border-radius: 0.5rem; font-size: 1rem;">
+      </div>
+
+      <button type="submit" class="btn" style="width: 100%; font-size: 1.05rem; padding: 0.9rem;">
+        Confirm Reservation ➔
+      </button>
+    </form>
+  </div>
+</div>
+{% endblock %}

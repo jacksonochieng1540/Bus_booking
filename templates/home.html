@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}SafariSacco - Kenya's Premier Bus & Coach Booking Sacco{% endblock %}
+
+{% block content %}
+<div style="text-align: center; padding: 4rem 1rem;">
+  <h1 style="font-size: 2.8rem; font-weight: 900; color: var(--sacco-navy); margin-bottom: 1rem;">
+    Welcome to SafariSacco Kenya
+  </h1>
+  <p style="font-size: 1.2rem; color: var(--sacco-text-muted); max-width: 650px; margin: 0 auto 2rem auto;">
+    Kenya's premier bus & coach booking platform. Experience instant online seat reservations and automated M-Pesa ticketing.
+  </p>
+  <a href="{% url 'fleets:trip_list' %}" class="btn btn-gold" style="font-size: 1.1rem; padding: 0.95rem 2rem;">
+    Explore Express Routes &amp; Schedule ➔
+  </a>
+</div>
+{% endblock %}

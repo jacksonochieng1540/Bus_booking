@@ -1,4 +1,4 @@
-# SafariSacco 🚌 - Bus & Coach Booking System
+# SafariSacco  - Bus & Coach Booking System
 
 [![CI Workflow](https://github.com/jacksonochieng1540/Bus_booking/actions/workflows/ci.yml/badge.svg)](https://github.com/jacksonochieng1540/Bus_booking/actions/workflows/ci.yml)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
@@ -10,7 +10,7 @@
 
 ---
 
-## 🌟 Key Features
+##  Key Features
 
 * **Svelte Single-Page Application (SPA)**:
   * Interactive Journey Planner widget with city swap controls (`⇄`) and one-way / round-trip selectors.
@@ -39,7 +39,7 @@
 
 ---
 
-## 🏗️ Project Architecture
+##  Project Architecture
 
 ```
 Bus_project/
@@ -109,7 +109,7 @@ Open your browser at `http://localhost:5173`.
 
 ---
 
-## 🌐 Production Deployment (Render.com)
+##  Production Deployment (Render.com)
 
 This repository includes a complete [render.yaml](file:///home/notoriousmma/Documents/Bus_project/render.yaml) specification:
 
@@ -122,7 +122,7 @@ This repository includes a complete [render.yaml](file:///home/notoriousmma/Docu
 
 ---
 
-## 🔌 REST API Endpoints
+##  REST API Endpoints
 
 | Category | Method | Endpoint | Description |
 | :--- | :--- | :--- | :--- |
@@ -138,7 +138,7 @@ This repository includes a complete [render.yaml](file:///home/notoriousmma/Docu
 
 ---
 
-## 🧪 Testing & Quality Assurance
+##  Testing & Quality Assurance
 
 Run the comprehensive Django backend test suite (24 tests covering models, forms, APIs, and WAF security exploit prevention):
 
@@ -158,5 +158,5 @@ flake8 .
 
 ---
 
-## 📄 License
+##  License
 Licensed under the [MIT License](LICENSE). &copy; 2026 SafariSacco Kenya Ltd.

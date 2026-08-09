@@ -1,8 +1,10 @@
 from django.db import IntegrityError
-from django.test import TestCase
+from django.test import TestCase, Client
 from django.utils import timezone
+from django.urls import reverse
 from fleets.models import Bus, Route, Trip
 from bookings.models import Booking
+from bookings.forms import BookingForm
 
 
 class BookingModelTests(TestCase):
@@ -46,9 +48,6 @@ class BookingModelTests(TestCase):
                 seat_number=5,
                 status=Booking.Status.CONFIRMED,
             )
-
-
-from bookings.forms import BookingForm
 
 
 class BookingFormTests(TestCase):
@@ -105,3 +104,46 @@ class BookingFormTests(TestCase):
         self.assertIn("seat_number", form.errors)
 
 
+class BookingsApiTests(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.bus = Bus.objects.create(plate_number="KXX 999X", total_seats=20)
+        self.route = Route.objects.create(
+            departure_city="Nairobi",
+            destination_city="Malindi",
+            price=2500.00,
+        )
+        self.trip = Trip.objects.create(
+            bus=self.bus,
+            route=self.route,
+            departure_time=timezone.now(),
+        )
+
+    def test_api_create_booking_success(self):
+        url = reverse("bookings:api_create_booking", args=[self.trip.pk])
+        payload = {
+            "passenger_name": "API Passenger",
+            "passenger_phone": "+254799999999",
+            "seat_number": 4,
+        }
+        response = self.client.post(url, data=payload, content_type="application/json")
+        self.assertEqual(response.status_code, 201)
+        data = response.json()
+        self.assertEqual(data["booking"]["seat_number"], 4)
+
+    def test_api_create_booking_duplicate_fails(self):
+        Booking.objects.create(
+            trip=self.trip,
+            passenger_name="First",
+            passenger_phone="+254711111111",
+            seat_number=5,
+            status=Booking.Status.CONFIRMED,
+        )
+        url = reverse("bookings:api_create_booking", args=[self.trip.pk])
+        payload = {
+            "passenger_name": "Second",
+            "passenger_phone": "+254722222222",
+            "seat_number": 5,
+        }
+        response = self.client.post(url, data=payload, content_type="application/json")
+        self.assertEqual(response.status_code, 400)

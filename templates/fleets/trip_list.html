@@ -1,42 +1,42 @@
 {% extends 'base.html' %}
 
-{% block title %}Choose your journey - Bus Sacco{% endblock %}
+{% block title %}Book Your Bus Ticket - SafariSacco Kenya{% endblock %}
 
 {% block banner %}
-<!-- Ocean Blue Journey Planner -->
-<section class="planner-section">
+<!-- SafariSacco Journey Planner -->
+<section id="planner-section" class="planner-section">
   <div class="planner-container">
     <div class="planner-header">
-      <h2 class="planner-title">Choose your journey</h2>
+      <h2 class="planner-title">Book Your Bus Journey</h2>
       
       <div class="trip-type-toggle">
-        <button type="button" class="toggle-btn active">✓ Single</button>
-        <button type="button" class="toggle-btn">Return</button>
+        <button type="button" id="single-btn" class="toggle-btn active" onclick="setTripType('single')">✓ One-Way</button>
+        <button type="button" id="return-btn" class="toggle-btn" onclick="setTripType('return')">Round Trip</button>
       </div>
     </div>
 
     <form method="GET" action="{% url 'fleets:trip_list' %}">
       <div class="planner-form-row">
         <div class="input-box">
-          <label>Travel from</label>
-          <input type="text" name="departure" value="{{ departure }}" placeholder="Departure City (e.g. Nairobi)">
+          <label for="departure_input">Origin Station</label>
+          <input type="text" id="departure_input" name="departure" value="{{ departure }}" placeholder="e.g. Nairobi (River Road / Tea Room)">
         </div>
 
-        <button type="button" class="swap-btn" title="Swap cities">⇄</button>
+        <button type="button" class="swap-btn" title="Swap stations" onclick="swapCities()">⇄</button>
 
         <div class="input-box">
-          <label>Travel to</label>
-          <input type="text" name="destination" value="{{ destination }}" placeholder="Destination City (e.g. Mombasa)">
-        </div>
-
-        <div class="input-box">
-          <label>Departure Date</label>
-          <input type="text" value="Sun 09 Aug 📅" readonly style="cursor: pointer;">
+          <label for="destination_input">Destination Station</label>
+          <input type="text" id="destination_input" name="destination" value="{{ destination }}" placeholder="e.g. Mombasa (Mwembe Tayari)">
         </div>
 
         <div class="input-box">
-          <label>Passengers</label>
-          <select style="cursor: pointer;">
+          <label for="date_input">Travel Date</label>
+          <input type="text" id="date_input" value="Sun 09 Aug 📅" readonly style="cursor: pointer;" onclick="alert('Date selection: Showing all upcoming scheduled departures below.');">
+        </div>
+
+        <div class="input-box">
+          <label for="passenger_select">Passengers</label>
+          <select id="passenger_select" style="cursor: pointer;">
             <option>1 Passenger</option>
             <option>2 Passengers</option>
             <option>3 Passengers</option>
@@ -46,67 +46,77 @@
 
         <div>
           <button type="submit" class="btn-search-cta">
-            Find your journey ➔
+            Search Buses ➔
           </button>
         </div>
       </div>
     </form>
 
     <div class="payment-methods-bar">
-      <span>We accept:</span>
-      <span class="pm-badge mpesa">M-PESA</span>
-      <span class="pm-badge visa">VISA</span>
-      <span class="pm-badge mastercard">MasterCard</span>
-      <span class="pm-badge paypal">PayPal</span>
-      <span class="pm-badge applepay">Pay</span>
-      <span class="pm-badge gpay">G Pay</span>
+      <span>Supported Payments:</span>
+      <a href="{% url 'notifications:notification_list' %}" class="pm-badge mpesa" title="Instant M-Pesa STK Push">M-PESA</a>
+      <a href="{% url 'notifications:notification_list' %}" class="pm-badge airtel" title="Airtel Money">Airtel Money</a>
+      <a href="{% url 'notifications:notification_list' %}" class="pm-badge visa" title="Visa Credit/Debit">VISA</a>
+      <a href="{% url 'notifications:notification_list' %}" class="pm-badge mastercard" title="MasterCard">MasterCard</a>
+      <a href="{% url 'notifications:notification_list' %}" class="pm-badge equitel" title="Equitel">Equitel</a>
     </div>
   </div>
 </section>
 
 <!-- Scenic Coach Hero Banner -->
-<section class="hero-image-banner">
+<section class="hero-image-banner" style="cursor: pointer;" onclick="document.getElementById('planner-section').scrollIntoView({behavior: 'smooth'});">
   <div class="hero-content">
-    <h1>Travel with Bus Sacco:<br>Cheap coach tickets nationwide</h1>
-    <p>Comfortable express coach travel across Kenya with instant M-Pesa booking &amp; seat selection.</p>
+    <h1>SafariSacco:<br>Fast, Reliable &amp; Safe Express Coach Travel</h1>
+    <p>Daily luxury bus departures linking Nairobi, Mombasa, Kisumu, Nakuru, Eldoret &amp; Malindi with instant M-Pesa mobile ticketing.</p>
   </div>
 </section>
 {% endblock %}
 
 {% block content %}
 <div style="margin-top: 1rem;">
-  <h2 style="font-size: 1.8rem; font-weight: 800; color: var(--ne-dark-blue); margin-bottom: 0.5rem;">
-    Available Journeys
-  </h2>
-  <p style="color: var(--ne-text-muted); margin-bottom: 1.5rem;">
-    Select your preferred coach departure to view available seat numbers.
-  </p>
+  <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem;">
+    <div>
+      <h2 style="font-size: 1.8rem; font-weight: 900; color: var(--sacco-navy); margin-bottom: 0.25rem;">
+        Scheduled Express Departures
+      </h2>
+      <p style="color: var(--sacco-text-muted);">
+        Select a trip to view live seat layout and place your reservation.
+      </p>
+    </div>
+    <div>
+      <a href="{% url 'fleets:trip_list' %}" class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">
+        Reset Search Filters ↺
+      </a>
+    </div>
+  </div>
 
   {% if trip_data %}
   <div class="grid">
     {% for item in trip_data %}
-    <div class="card">
+    <div class="card" style="cursor: pointer;" onclick="window.location.href='{% url 'fleets:trip_detail' item.trip.pk %}';">
       <div>
         <div class="card-header">
           <span class="badge {% if item.available_seats > 5 %}badge-emerald{% else %}badge-amber{% endif %}">
-            {{ item.available_seats }} / {{ item.trip.bus.total_seats }} Seats Left
+            {{ item.available_seats }} / {{ item.trip.bus.total_seats }} Seats Available
           </span>
           <span class="price-tag">KES {{ item.trip.route.price }}</span>
         </div>
 
-        <h3 style="font-size: 1.3rem; font-weight: 800; color: var(--ne-dark-blue); margin-bottom: 0.5rem;">
-          {{ item.trip.route.departure_city }} ➔ {{ item.trip.route.destination_city }}
+        <h3 style="font-size: 1.35rem; font-weight: 900; color: var(--sacco-navy); margin-bottom: 0.5rem;">
+          <a href="{% url 'fleets:trip_detail' item.trip.pk %}" style="color: inherit; text-decoration: none;">
+            {{ item.trip.route.departure_city }} ➔ {{ item.trip.route.destination_city }}
+          </a>
         </h3>
 
-        <p style="color: var(--ne-text-muted); font-size: 0.95rem; margin-bottom: 1.25rem; line-height: 1.5;">
+        <p style="color: var(--sacco-text-muted); font-size: 0.95rem; margin-bottom: 1.25rem; line-height: 1.5;">
           📅 Departure: <strong>{{ item.trip.departure_time|date:"Y-m-d H:i" }}</strong><br>
-          🚍 Coach Plate: <strong>{{ item.trip.bus.plate_number }}</strong>
+          🚍 Bus Plate: <strong>{{ item.trip.bus.plate_number }}</strong>
         </p>
       </div>
 
       <div>
-        <a href="{% url 'fleets:trip_detail' item.trip.pk %}" class="btn" style="width: 100%;">
-          Select Seats &amp; Book ➔
+        <a href="{% url 'fleets:trip_detail' item.trip.pk %}" class="btn" style="width: 100%; text-decoration: none;">
+          Select Seat &amp; Reserve ➔
         </a>
       </div>
     </div>
@@ -114,8 +124,71 @@
   </div>
   {% else %}
   <div class="card" style="text-align: center; padding: 3rem 1.5rem;">
-    <p style="color: var(--ne-text-muted); font-size: 1.1rem;">No scheduled journeys found for your search criteria.</p>
+    <p style="color: var(--sacco-text-muted); font-size: 1.1rem; margin-bottom: 1rem;">No bus departures matching your search filters.</p>
+    <a href="{% url 'fleets:trip_list' %}" class="btn btn-secondary" style="display: inline-block;">View All Scheduled Trips</a>
   </div>
   {% endif %}
 </div>
+
+<!-- Sacco Features Section -->
+<section id="sacco-services" style="margin-top: 4rem; padding-top: 2rem; border-top: 2px solid var(--sacco-border);">
+  <h2 style="font-size: 1.8rem; font-weight: 900; color: var(--sacco-navy); text-align: center; margin-bottom: 0.5rem;">
+    Why Travel With SafariSacco?
+  </h2>
+  <p style="color: var(--sacco-text-muted); text-align: center; margin-bottom: 2.5rem;">
+    Kenya's most trusted Sacco for passenger comfort, punctual departures, and seamless mobile payments.
+  </p>
+
+  <div class="grid">
+    <div class="card" style="text-align: center; cursor: pointer;" onclick="window.location.href='{% url 'notifications:notification_list' %}';">
+      <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">📱</div>
+      <h3 style="font-size: 1.2rem; font-weight: 800; color: var(--sacco-navy); margin-bottom: 0.5rem;">Instant M-Pesa STK Push</h3>
+      <p style="color: var(--sacco-text-muted); font-size: 0.9rem;">
+        Pay directly from your Safaricom phone and receive instant SMS ticket confirmation.
+      </p>
+    </div>
+
+    <div class="card" style="text-align: center; cursor: pointer;" onclick="document.getElementById('planner-section').scrollIntoView({behavior: 'smooth'});">
+      <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">💺</div>
+      <h3 style="font-size: 1.2rem; font-weight: 800; color: var(--sacco-navy); margin-bottom: 0.5rem;">Interactive Seat Picker</h3>
+      <p style="color: var(--sacco-text-muted); font-size: 0.9rem;">
+        View available window or aisle seats on our live coach diagram before paying.
+      </p>
+    </div>
+
+    <div class="card" style="text-align: center; cursor: pointer;" onclick="window.location.href='/admin/';">
+      <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🛡</div>
+      <h3 style="font-size: 1.2rem; font-weight: 800; color: var(--sacco-navy); margin-bottom: 0.5rem;">Guaranteed Seat Lock</h3>
+      <p style="color: var(--sacco-text-muted); font-size: 0.9rem;">
+        Database-level unique constraints completely block double-booking for peace of mind.
+      </p>
+    </div>
+  </div>
+</section>
+
+<script>
+  function swapCities() {
+    const dep = document.getElementById('departure_input');
+    const dest = document.getElementById('destination_input');
+    const temp = dep.value;
+    dep.value = dest.value;
+    dest.value = temp;
+  }
+
+  function setTripType(type) {
+    const singleBtn = document.getElementById('single-btn');
+    const returnBtn = document.getElementById('return-btn');
+    if (type === 'single') {
+      singleBtn.classList.add('active');
+      returnBtn.classList.remove('active');
+      singleBtn.innerHTML = '✓ One-Way';
+      returnBtn.innerHTML = 'Round Trip';
+    } else {
+      returnBtn.classList.add('active');
+      singleBtn.classList.remove('active');
+      returnBtn.innerHTML = '✓ Round Trip';
+      singleBtn.innerHTML = 'One-Way';
+    }
+  }
+</script>
 {% endblock %}

@@ -1,31 +1,31 @@
 {% extends 'base.html' %}
 
-{% block title %}Notification Audit Logs - Bus Sacco{% endblock %}
+{% block title %}SMS Ticket Audit Logs - SafariSacco{% endblock %}
 
 {% block content %}
-<h2 style="font-size: 1.8rem; font-weight: 900; color: var(--ne-dark-blue); margin-bottom: 0.5rem;">
-  Notification Audit Logs
+<h2 style="font-size: 1.8rem; font-weight: 900; color: var(--sacco-navy); margin-bottom: 0.5rem;">
+  SMS Ticket Audit Logs
 </h2>
-<p style="color: var(--ne-text-muted); margin-bottom: 1.5rem;">
-  Real-time SMS ticket confirmations dispatched by Bus Sacco.
+<p style="color: var(--sacco-text-muted); margin-bottom: 1.5rem;">
+  Real-time passenger SMS ticket confirmations dispatched by SafariSacco Kenya.
 </p>
 
 {% if notifications %}
 <div class="card" style="padding: 0; overflow-x: auto;">
   <table style="width: 100%; border-collapse: collapse; text-align: left;">
     <thead>
-      <tr style="border-bottom: 1px solid var(--ne-card-border); background: var(--ne-light-gray);">
-        <th style="padding: 1rem; color: var(--ne-text-muted); font-size: 0.8rem; font-weight: 800;">RECIPIENT</th>
-        <th style="padding: 1rem; color: var(--ne-text-muted); font-size: 0.8rem; font-weight: 800;">MESSAGE CONTENT</th>
-        <th style="padding: 1rem; color: var(--ne-text-muted); font-size: 0.8rem; font-weight: 800;">STATUS</th>
-        <th style="padding: 1rem; color: var(--ne-text-muted); font-size: 0.8rem; font-weight: 800;">TIMESTAMP</th>
+      <tr style="border-bottom: 1px solid var(--sacco-border); background: var(--sacco-bg-light);">
+        <th style="padding: 1rem; color: var(--sacco-text-muted); font-size: 0.8rem; font-weight: 800;">RECIPIENT PHONE</th>
+        <th style="padding: 1rem; color: var(--sacco-text-muted); font-size: 0.8rem; font-weight: 800;">SMS MESSAGE CONTENT</th>
+        <th style="padding: 1rem; color: var(--sacco-text-muted); font-size: 0.8rem; font-weight: 800;">DISPATCH STATUS</th>
+        <th style="padding: 1rem; color: var(--sacco-text-muted); font-size: 0.8rem; font-weight: 800;">TIMESTAMP</th>
       </tr>
     </thead>
     <tbody>
       {% for log in notifications %}
-      <tr style="border-bottom: 1px solid var(--ne-card-border);">
-        <td style="padding: 1rem; font-weight: 700; color: var(--ne-dark-blue);">{{ log.recipient }}</td>
-        <td style="padding: 1rem; color: var(--ne-text-dark); font-size: 0.95rem;">{{ log.message }}</td>
+      <tr style="border-bottom: 1px solid var(--sacco-border);">
+        <td style="padding: 1rem; font-weight: 700; color: var(--sacco-navy);">{{ log.recipient }}</td>
+        <td style="padding: 1rem; color: var(--sacco-text-dark); font-size: 0.95rem;">{{ log.message }}</td>
         <td style="padding: 1rem;">
           {% if log.status == 'SENT' %}
             <span class="badge badge-emerald">SENT</span>
@@ -33,7 +33,7 @@
             <span class="badge badge-rose">FAILED</span>
           {% endif %}
         </td>
-        <td style="padding: 1rem; font-size: 0.85rem; color: var(--ne-text-muted);">{{ log.created_at|date:"Y-m-d H:i:s" }}</td>
+        <td style="padding: 1rem; font-size: 0.85rem; color: var(--sacco-text-muted);">{{ log.created_at|date:"Y-m-d H:i:s" }}</td>
       </tr>
       {% endfor %}
     </tbody>
@@ -41,7 +41,7 @@
 </div>
 {% else %}
 <div class="card" style="text-align: center; padding: 3rem;">
-  <p style="color: var(--ne-text-muted);">No notification logs recorded yet.</p>
+  <p style="color: var(--sacco-text-muted);">No SMS ticket dispatches logged yet.</p>
 </div>
 {% endif %}
 {% endblock %}

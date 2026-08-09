@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    command: gunicorn --bind 0.0.0.0:8000 --workers 3 sacco_booking.wsgi:application
+    volumes:
+      - static_volume:/app/staticfiles
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=0
+      - SECRET_KEY=production-secret-key-placeholder
+      - ALLOWED_HOSTS=*
+    restart: always
+
+volumes:
+  static_volume:

@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
-from fleets.models import Trip, Route
+from fleets.models import Trip
 from bookings.models import Booking
 
 

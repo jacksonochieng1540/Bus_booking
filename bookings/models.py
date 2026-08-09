@@ -31,4 +31,3 @@ class Booking(models.Model):
 
     def __str__(self):
         return f"Booking {self.pk} - Seat {self.seat_number} ({self.status}) for {self.passenger_name}"
-

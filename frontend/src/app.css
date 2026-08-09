@@ -1,0 +1,293 @@
+:root {
+  --sacco-green: #059669;
+  --sacco-green-dark: #047857;
+  --sacco-gold: #d97706;
+  --sacco-gold-light: #fef3c7;
+  --sacco-navy: #0f172a;
+  --sacco-navy-light: #1e293b;
+  --sacco-bg-light: #f8fafc;
+  --sacco-border: #cbd5e1;
+  --sacco-text-dark: #0f172a;
+  --sacco-text-muted: #475569;
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--sacco-bg-light);
+  color: var(--sacco-text-dark);
+  font-family: var(--font-family);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Header & Nav */
+.top-header {
+  background-color: #ffffff;
+  border-bottom: 2px solid var(--sacco-gold);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0.85rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brand-logo {
+  font-size: 1.8rem;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  cursor: pointer;
+}
+
+.logo-main {
+  color: var(--sacco-navy);
+}
+
+.logo-accent {
+  background: linear-gradient(135deg, var(--sacco-green) 0%, var(--sacco-gold) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.top-nav {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.top-nav-link {
+  color: var(--sacco-navy-light);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.top-nav-link:hover {
+  color: var(--sacco-green);
+}
+
+.account-btn {
+  border: 2px solid var(--sacco-green);
+  color: var(--sacco-green);
+  background: #ffffff;
+  padding: 0.45rem 1.25rem;
+  border-radius: 9999px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.account-btn:hover {
+  background: var(--sacco-green);
+  color: #ffffff;
+}
+
+/* Sub-header Navigation */
+.sub-header {
+  background-color: var(--sacco-navy);
+  color: #ffffff;
+}
+
+.sub-header-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  gap: 1.5rem;
+}
+
+.sub-nav-item {
+  padding: 0.95rem 1rem;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  position: relative;
+  transition: background-color 0.2s;
+}
+
+.sub-nav-item:hover, .sub-nav-item.active {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.sub-nav-item.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background-color: var(--sacco-gold);
+}
+
+/* Container */
+.main-container {
+  max-width: 1280px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+  flex: 1;
+  width: 100%;
+}
+
+/* Cards & Grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1.5rem;
+}
+
+.card {
+  background: #ffffff;
+  border: 1px solid var(--sacco-border);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.card:hover {
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  transform: translateY(-2px);
+}
+
+.btn {
+  background: var(--sacco-green);
+  color: #ffffff;
+  padding: 0.85rem 1.5rem;
+  border-radius: 9999px;
+  border: none;
+  font-weight: 800;
+  font-size: 1rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.btn:hover {
+  background: var(--sacco-green-dark);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: var(--sacco-navy);
+  color: #ffffff;
+}
+
+.btn-secondary:hover {
+  background: var(--sacco-navy-light);
+}
+
+.btn-gold {
+  background: var(--sacco-gold);
+  color: #ffffff;
+}
+
+.btn-gold:hover {
+  background: #b45309;
+}
+
+.btn-danger {
+  background: #dc2626;
+}
+
+.btn-danger:hover {
+  background: #b91c1c;
+}
+
+.badge {
+  padding: 0.35rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.badge-emerald {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.badge-amber {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.badge-rose {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.price-tag {
+  font-size: 1.65rem;
+  font-weight: 900;
+  color: var(--sacco-navy);
+}
+
+/* Floating WhatsApp Customer Support Widget */
+.whatsapp-chat-widget {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background-color: #25d366;
+  color: #ffffff;
+  border-radius: 9999px;
+  padding: 0.75rem 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  box-shadow: 0 4px 14px rgba(37, 211, 102, 0.4);
+  font-weight: 800;
+  font-size: 0.95rem;
+  z-index: 9999;
+  transition: transform 0.2s, background-color 0.2s;
+  text-decoration: none;
+}
+
+.whatsapp-chat-widget:hover {
+  background-color: #1eb956;
+  transform: scale(1.05);
+  color: #ffffff;
+}
+
+footer {
+  background-color: var(--sacco-navy);
+  color: #94a3b8;
+  padding: 2.25rem 1.5rem;
+  text-align: center;
+  font-size: 0.9rem;
+  margin-top: 3.5rem;
+  border-top: 4px solid var(--sacco-gold);
+}

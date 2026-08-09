@@ -25,4 +25,3 @@ class Trip(models.Model):
 
     def __str__(self):
         return f"Trip {self.pk}: {self.bus.plate_number} ({self.route}) at {self.departure_time}"
-

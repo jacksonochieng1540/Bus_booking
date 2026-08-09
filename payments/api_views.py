@@ -1,10 +1,38 @@
+import hmac
+import hashlib
 import json
+from django.conf import settings
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods, require_GET
 from bookings.models import Booking
 from payments.models import Payment
 from payments.utils import initiate_stk_push, process_payment_callback
+from notifications.tasks import async_send_booking_confirmation
+
+
+def verify_webhook_signature(request):
+    """
+    Verifies incoming webhook requests via HMAC SHA256 signature header or secret token.
+    """
+    secret = getattr(settings, "MPESA_WEBHOOK_SECRET", "sacco-secure-webhook-secret-key")
+    signature = request.headers.get("X-Signature") or request.GET.get("secret")
+
+    if not signature:
+        # For demo testing fallback, allow if DEBUG is True and no secret header passed
+        if getattr(settings, "DEBUG", False):
+            return True
+        return False
+
+    if signature == secret:
+        return True
+
+    expected_hmac = hmac.new(
+        secret.encode("utf-8"),
+        request.body,
+        hashlib.sha256
+    ).hexdigest()
+    return hmac.compare_digest(signature, expected_hmac)
 
 
 @csrf_exempt
@@ -46,6 +74,9 @@ def api_initiate_payment(request):
 @csrf_exempt
 @require_http_methods(["POST"])
 def api_payment_callback(request, payment_id):
+    if not verify_webhook_signature(request):
+        return JsonResponse({"error": "Unauthorized webhook signature or secret."}, status=401)
+
     try:
         payment = Payment.objects.get(pk=payment_id)
     except Payment.DoesNotExist:
@@ -64,6 +95,10 @@ def api_payment_callback(request, payment_id):
 
     ok, msg = process_payment_callback(payment.pk, success=success, receipt_number=receipt_number)
     if ok:
+        try:
+            async_send_booking_confirmation.delay(payment.booking.pk)
+        except Exception:
+            pass
         return JsonResponse({"message": msg, "status": "COMPLETED"}, status=200)
     else:
         return JsonResponse({"error": msg, "status": "FAILED"}, status=400)

@@ -1,4 +1,5 @@
 from django import forms
+from django.utils.html import strip_tags
 from bookings.models import Booking
 
 
@@ -14,6 +15,20 @@ class BookingForm(forms.ModelForm):
             if self.instance and hasattr(self.instance, "trip") and self.instance.trip_id
             else None
         )
+
+    def clean_passenger_name(self):
+        name = self.cleaned_data.get("passenger_name", "").strip()
+        sanitized = strip_tags(name)
+        if not sanitized:
+            raise forms.ValidationError("Please enter a valid passenger name.")
+        return sanitized
+
+    def clean_passenger_phone(self):
+        phone = self.cleaned_data.get("passenger_phone", "").strip()
+        sanitized = strip_tags(phone)
+        if not sanitized:
+            raise forms.ValidationError("Please enter a valid phone number.")
+        return sanitized
 
     def clean_seat_number(self):
         seat_number = self.cleaned_data.get("seat_number")

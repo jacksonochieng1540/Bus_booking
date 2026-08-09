@@ -6,12 +6,22 @@ services:
     command: gunicorn --bind 0.0.0.0:8000 --workers 3 sacco_booking.wsgi:application
     volumes:
       - static_volume:/app/staticfiles
-    ports:
-      - "8000:8000"
+    expose:
+      - "8000"
     environment:
       - DEBUG=0
       - SECRET_KEY=production-secret-key-placeholder
       - ALLOWED_HOSTS=*
+    restart: always
+
+  nginx:
+    build: ./nginx
+    ports:
+      - "80:80"
+    volumes:
+      - static_volume:/app/staticfiles
+    depends_on:
+      - web
     restart: always
 
 volumes:

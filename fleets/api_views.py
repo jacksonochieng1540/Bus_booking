@@ -29,6 +29,9 @@ def api_trip_list(request):
         departure_time__gte=timezone.now()
     ).order_by("departure_time")
 
+    if not trips.exists():
+        trips = Trip.objects.select_related("bus", "route").all().order_by("departure_time")
+
     if departure:
         trips = trips.filter(route__departure_city__icontains=departure)
     if destination:

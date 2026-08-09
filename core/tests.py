@@ -76,3 +76,25 @@ class AuthenticationTests(TestCase):
         self.assertEqual(response.status_code, 200)
         data = response.json()
         self.assertEqual(data["user"]["username"], "existinguser")
+
+
+class WAFAndSecurityTests(TestCase):
+    def setUp(self):
+        self.client = Client()
+
+    def test_waf_blocks_sql_injection(self):
+        url = reverse("fleets:trip_list") + "?departure=' UNION SELECT * FROM auth_user --"
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 403)
+
+    def test_waf_blocks_xss_attack(self):
+        url = reverse("fleets:trip_list") + "?departure=<script>alert('xss')</script>"
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 403)
+
+    def test_security_headers_present(self):
+        url = reverse("fleets:trip_list")
+        response = self.client.get(url)
+        self.assertEqual(response.headers.get("X-Frame-Options"), "DENY")
+        self.assertEqual(response.headers.get("X-Content-Type-Options"), "nosniff")
+        self.assertIn("Content-Security-Policy", response.headers)

@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %}Bus Sacco - Cheap coach tickets nationwide{% endblock %}</title>
+  <title>{% block title %}SafariSacco - Kenya's Premier Bus & Coach Booking Sacco{% endblock %}</title>
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,22 +15,21 @@
   <!-- Top Header Bar -->
   <header class="top-header">
     <div class="header-container">
-      <a href="{% url 'fleets:trip_list' %}" class="brand-logo" title="Bus Sacco Homepage">
-        <span class="brand-red">bus</span><span class="brand-blue">sacco</span>
+      <a href="{% url 'fleets:trip_list' %}" class="brand-logo" title="SafariSacco Bus Booking">
+        <span class="logo-main">Safari</span><span class="logo-accent">Sacco</span> 🚌
       </a>
 
       <nav class="top-nav">
-        <a href="{% url 'fleets:trip_list' %}#planner-section" class="top-nav-link">Plan your journey ▾</a>
-        <a href="{% url 'notifications:notification_list' %}" class="top-nav-link">Here to help ▾</a>
-        <a href="{% url 'fleets:trip_list' %}#why-us" class="top-nav-link">Why we're No. 1 ▾</a>
-        <a href="{% url 'notifications:notification_list' %}" class="top-nav-link">Manage my booking</a>
+        <a href="{% url 'fleets:trip_list' %}#planner-section" class="top-nav-link">Explore Routes ▾</a>
+        <a href="{% url 'fleets:trip_list' %}#sacco-services" class="top-nav-link">Sacco Services ▾</a>
+        <a href="{% url 'notifications:notification_list' %}" class="top-nav-link">Customer Support</a>
+        <a href="{% url 'notifications:notification_list' %}" class="top-nav-link">My Bookings</a>
       </nav>
 
       <div class="top-right-actions">
         <a href="{% url 'fleets:trip_list' %}" style="font-size: 1.3rem;" title="Kenya (KE)">🇰🇪</a>
-        <button type="button" class="icon-btn" onclick="toggleAccessibility()" title="Toggle High Contrast Mode">♿</button>
-        <a href="/admin/" class="account-btn" target="_blank" title="Go to Admin Dashboard">
-          👤 My account
+        <a href="/admin/" class="account-btn" target="_blank" title="Sacco Member & Admin Portal">
+          👤 Sacco Portal
         </a>
       </div>
     </div>
@@ -40,16 +39,16 @@
   <div class="sub-header">
     <div class="sub-header-container">
       <a href="{% url 'fleets:trip_list' %}" class="sub-nav-item active">
-        🚌 Trips
+        🚍 Route Schedule
       </a>
-      <a href="{% url 'fleets:trip_list' %}?event=true" class="sub-nav-item">
-        📅 Events
+      <a href="{% url 'fleets:trip_list' %}#stations" class="sub-nav-item">
+        📍 Main Terminals
       </a>
       <a href="{% url 'notifications:notification_list' %}" class="sub-nav-item">
-        📲 Notification Logs
+        📲 SMS Ticket Logs
       </a>
-      <a href="/admin/" class="sub-nav-item" target="_blank">
-        ⚙ Admin Panel
+      <a href="{% url 'notifications:notification_list' %}" class="sub-nav-item">
+        💳 M-Pesa Center
       </a>
     </div>
   </div>
@@ -71,15 +70,8 @@
   </main>
 
   <footer>
-    <p>&copy; 2026 Bus Sacco. All rights reserved. | <a href="{% url 'notifications:notification_list' %}">SMS Logs</a> | <a href="/admin/" target="_blank">Admin Control</a></p>
+    <p>&copy; 2026 SafariSacco Kenya Ltd. All rights reserved. | Licensed Bus &amp; Coach Transport Operator | <a href="{% url 'notifications:notification_list' %}">SMS Ticket Logs</a> | <a href="/admin/" target="_blank">Sacco Portal</a></p>
   </footer>
-
-  <script>
-    function toggleAccessibility() {
-      document.body.classList.toggle('accessibility-mode');
-      alert("Accessibility High-Contrast Mode toggled.");
-    }
-  </script>
 
 </body>
 </html>

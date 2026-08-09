@@ -1,21 +1,21 @@
 {% extends 'base.html' %}
 
-{% block title %}{{ trip.route.departure_city }} to {{ trip.route.destination_city }} - Seat Selection{% endblock %}
+{% block title %}{{ trip.route.departure_city }} to {{ trip.route.destination_city }} - Seat Selection - SafariSacco{% endblock %}
 
 {% block content %}
 <div style="margin-bottom: 1.5rem;">
   <a href="{% url 'fleets:trip_list' %}" class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">
-    ← Back to Journey Search
+    ← Back to Express Departures
   </a>
 </div>
 
 <div class="card" style="margin-bottom: 2rem;">
   <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; align-items: center;">
     <div>
-      <h1 style="font-size: 2rem; font-weight: 900; color: var(--ne-dark-blue); margin-bottom: 0.4rem;">
+      <h1 style="font-size: 2rem; font-weight: 900; color: var(--sacco-navy); margin-bottom: 0.4rem;">
         {{ trip.route.departure_city }} ➔ {{ trip.route.destination_city }}
       </h1>
-      <p style="color: var(--ne-text-muted); font-size: 1rem;">
+      <p style="color: var(--sacco-text-muted); font-size: 1rem;">
         Coach: <strong>{{ trip.bus.plate_number }}</strong> (Capacity: {{ trip.bus.total_seats }} seats) | 
         Departure: <strong>{{ trip.departure_time|date:"Y-m-d H:i" }}</strong>
       </p>
@@ -26,26 +26,26 @@
   </div>
 </div>
 
-<h2 style="font-size: 1.5rem; font-weight: 800; color: var(--ne-dark-blue); margin-bottom: 0.5rem;">
-  Select Your Seat
+<h2 style="font-size: 1.5rem; font-weight: 900; color: var(--sacco-navy); margin-bottom: 0.5rem;">
+  Interactive Coach Seat Selection
 </h2>
-<p style="color: var(--ne-text-muted); margin-bottom: 1.5rem;">
-  Click an available (green) seat to reserve it for your journey.
+<p style="color: var(--sacco-text-muted); margin-bottom: 1.5rem;">
+  Click an available (green) seat to reserve it for your trip.
 </p>
 
 <div class="seat-map-container">
   <div class="seat-legend">
     <div class="legend-item">
-      <div class="seat-sample" style="background: #f0fdf4; border: 2px solid var(--ne-green);"></div>
-      <span>Available</span>
+      <div class="seat-sample" style="background: #f0fdf4; border: 2px solid var(--sacco-green);"></div>
+      <span>Available Seat</span>
     </div>
     <div class="legend-item">
-      <div class="seat-sample" style="background: #fef3c7; border: 2px solid #f59e0b;"></div>
-      <span>Pending</span>
+      <div class="seat-sample" style="background: #fef3c7; border: 2px solid var(--sacco-gold);"></div>
+      <span>Pending Payment</span>
     </div>
     <div class="legend-item">
-      <div class="seat-sample" style="background: #fee2e2; border: 2px solid var(--ne-red);"></div>
-      <span>Taken / Confirmed</span>
+      <div class="seat-sample" style="background: #fee2e2; border: 2px solid #dc2626;"></div>
+      <span>Occupied</span>
     </div>
   </div>
 

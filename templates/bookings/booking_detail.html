@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 
-{% block title %}Booking Ticket #{{ booking.pk }} - Bus Sacco{% endblock %}
+{% block title %}Ticket #{{ booking.pk }} - SafariSacco{% endblock %}
 
 {% block content %}
 <div style="max-width: 750px; margin: 0 auto;">
   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
-    <h2 style="font-size: 1.8rem; font-weight: 900; color: var(--ne-dark-blue);">
-      Booking Ticket #{{ booking.pk }}
+    <h2 style="font-size: 1.8rem; font-weight: 900; color: var(--sacco-navy);">
+      SafariSacco Ticket #{{ booking.pk }}
     </h2>
     {% if booking.status == 'CONFIRMED' %}
       <span class="badge badge-emerald" style="font-size: 0.9rem; padding: 0.4rem 1rem;">✓ CONFIRMED</span>
@@ -20,38 +20,38 @@
   <div class="card" style="margin-bottom: 1.5rem;">
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem;">
       <div>
-        <p style="color: var(--ne-text-muted); font-size: 0.75rem; font-weight: 800;">PASSENGER NAME</p>
-        <p style="font-weight: 800; font-size: 1.15rem; color: var(--ne-dark-blue);">{{ booking.passenger_name }}</p>
+        <p style="color: var(--sacco-text-muted); font-size: 0.75rem; font-weight: 800;">PASSENGER NAME</p>
+        <p style="font-weight: 800; font-size: 1.15rem; color: var(--sacco-navy);">{{ booking.passenger_name }}</p>
       </div>
       <div>
-        <p style="color: var(--ne-text-muted); font-size: 0.75rem; font-weight: 800;">PHONE NUMBER</p>
-        <p style="font-weight: 800; font-size: 1.15rem; color: var(--ne-dark-blue);">{{ booking.passenger_phone }}</p>
+        <p style="color: var(--sacco-text-muted); font-size: 0.75rem; font-weight: 800;">PHONE NUMBER</p>
+        <p style="font-weight: 800; font-size: 1.15rem; color: var(--sacco-navy);">{{ booking.passenger_phone }}</p>
       </div>
       <div>
-        <p style="color: var(--ne-text-muted); font-size: 0.75rem; font-weight: 800;">ROUTE</p>
-        <p style="font-weight: 800; font-size: 1.15rem; color: var(--ne-dark-blue);">{{ booking.trip.route.departure_city }} ➔ {{ booking.trip.route.destination_city }}</p>
+        <p style="color: var(--sacco-text-muted); font-size: 0.75rem; font-weight: 800;">ROUTE</p>
+        <p style="font-weight: 800; font-size: 1.15rem; color: var(--sacco-navy);">{{ booking.trip.route.departure_city }} ➔ {{ booking.trip.route.destination_city }}</p>
       </div>
       <div>
-        <p style="color: var(--ne-text-muted); font-size: 0.75rem; font-weight: 800;">SEAT ASSIGNED</p>
-        <p style="font-weight: 900; font-size: 1.5rem; color: var(--ne-green);">Seat #{{ booking.seat_number }}</p>
+        <p style="color: var(--sacco-text-muted); font-size: 0.75rem; font-weight: 800;">SEAT ASSIGNED</p>
+        <p style="font-weight: 900; font-size: 1.5rem; color: var(--sacco-green);">Seat #{{ booking.seat_number }}</p>
       </div>
       <div>
-        <p style="color: var(--ne-text-muted); font-size: 0.75rem; font-weight: 800;">DEPARTURE TIME</p>
-        <p style="font-weight: 700; color: var(--ne-text-dark);">{{ booking.trip.departure_time|date:"Y-m-d H:i" }}</p>
+        <p style="color: var(--sacco-text-muted); font-size: 0.75rem; font-weight: 800;">DEPARTURE TIME</p>
+        <p style="font-weight: 700; color: var(--sacco-text-dark);">{{ booking.trip.departure_time|date:"Y-m-d H:i" }}</p>
       </div>
       <div>
-        <p style="color: var(--ne-text-muted); font-size: 0.75rem; font-weight: 800;">TOTAL FARE</p>
-        <p style="font-weight: 900; font-size: 1.4rem; color: var(--ne-dark-blue);">KES {{ booking.trip.route.price }}</p>
+        <p style="color: var(--sacco-text-muted); font-size: 0.75rem; font-weight: 800;">TOTAL FARE</p>
+        <p style="font-weight: 900; font-size: 1.4rem; color: var(--sacco-navy);">KES {{ booking.trip.route.price }}</p>
       </div>
     </div>
 
     {% if payment %}
-    <div style="border-top: 1px solid var(--ne-card-border); padding-top: 1rem;">
-      <p style="font-size: 0.9rem; color: var(--ne-text-muted);">
-        PAYMENT STATUS: <strong style="color: var(--ne-dark-blue);">{{ payment.status }}</strong>
+    <div style="border-top: 1px solid var(--sacco-border); padding-top: 1rem;">
+      <p style="font-size: 0.9rem; color: var(--sacco-text-muted);">
+        PAYMENT STATUS: <strong style="color: var(--sacco-navy);">{{ payment.status }}</strong>
       </p>
       {% if payment.mpesa_receipt_number %}
-      <p style="font-size: 0.9rem; color: #15803d; font-weight: 700; margin-top: 0.25rem;">
+      <p style="font-size: 0.9rem; color: #15803d; font-weight: 800; margin-top: 0.25rem;">
         M-PESA RECEIPT: {{ payment.mpesa_receipt_number }}
       </p>
       {% endif %}
@@ -61,10 +61,10 @@
 
   {% if booking.status == 'PENDING' %}
   <div class="card" style="text-align: center;">
-    <h3 style="font-size: 1.3rem; font-weight: 800; color: var(--ne-dark-blue); margin-bottom: 0.5rem;">
-      Complete M-Pesa Payment
+    <h3 style="font-size: 1.3rem; font-weight: 900; color: var(--sacco-navy); margin-bottom: 0.5rem;">
+      Complete M-Pesa STK Payment
     </h3>
-    <p style="color: var(--ne-text-muted); font-size: 0.95rem; margin-bottom: 1.5rem;">
+    <p style="color: var(--sacco-text-muted); font-size: 0.95rem; margin-bottom: 1.5rem;">
       Click below to send an M-Pesa STK Push prompt to <strong>{{ booking.passenger_phone }}</strong>.
     </p>
 
@@ -82,7 +82,7 @@
   </div>
   {% else %}
   <div style="text-align: center; margin-top: 2rem;">
-    <a href="{% url 'fleets:trip_list' %}" class="btn btn-ocean">Book Another Journey ➔</a>
+    <a href="{% url 'fleets:trip_list' %}" class="btn btn-secondary">Book Another Journey ➔</a>
   </div>
   {% endif %}
 </div>

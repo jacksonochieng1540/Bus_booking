@@ -1,29 +1,29 @@
 {% extends 'base.html' %}
 
-{% block title %}Passenger Details - Bus Sacco{% endblock %}
+{% block title %}Passenger Reservation - SafariSacco{% endblock %}
 
 {% block content %}
 <div style="margin-bottom: 1.5rem;">
   <a href="{% url 'fleets:trip_detail' trip.pk %}" class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">
-    ← Back to Seat Map
+    ← Back to Seat Selection
   </a>
 </div>
 
 <div style="max-width: 650px; margin: 0 auto;">
   <div class="card" style="margin-bottom: 1.5rem;">
-    <h2 style="font-size: 1.5rem; font-weight: 800; color: var(--ne-dark-blue); margin-bottom: 0.75rem;">
+    <h2 style="font-size: 1.5rem; font-weight: 900; color: var(--sacco-navy); margin-bottom: 0.75rem;">
       Journey Reservation Summary
     </h2>
-    <p style="color: var(--ne-text-muted); font-size: 1rem; line-height: 1.6;">
-      Route: <strong style="color: var(--ne-text-dark);">{{ trip.route.departure_city }} ➔ {{ trip.route.destination_city }}</strong><br>
-      Coach: <strong style="color: var(--ne-text-dark);">{{ trip.bus.plate_number }}</strong> (Capacity: {{ trip.bus.total_seats }} seats)<br>
-      Departure: <strong style="color: var(--ne-text-dark);">{{ trip.departure_time|date:"Y-m-d H:i" }}</strong><br>
-      Fare: <strong style="color: var(--ne-dark-blue); font-size: 1.2rem;">KES {{ trip.route.price }}</strong>
+    <p style="color: var(--sacco-text-muted); font-size: 1rem; line-height: 1.6;">
+      Route: <strong style="color: var(--sacco-text-dark);">{{ trip.route.departure_city }} ➔ {{ trip.route.destination_city }}</strong><br>
+      Coach: <strong style="color: var(--sacco-text-dark);">{{ trip.bus.plate_number }}</strong> (Capacity: {{ trip.bus.total_seats }} seats)<br>
+      Departure: <strong style="color: var(--sacco-text-dark);">{{ trip.departure_time|date:"Y-m-d H:i" }}</strong><br>
+      Ticket Price: <strong style="color: var(--sacco-navy); font-size: 1.25rem;">KES {{ trip.route.price }}</strong>
     </p>
   </div>
 
   <div class="card">
-    <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--ne-dark-blue); margin-bottom: 1.25rem;">
+    <h3 style="font-size: 1.25rem; font-weight: 900; color: var(--sacco-navy); margin-bottom: 1.25rem;">
       Enter Passenger Information
     </h3>
 
@@ -39,36 +39,36 @@
       {% endif %}
 
       <div style="margin-bottom: 1.25rem;">
-        <label style="display: block; font-size: 0.85rem; font-weight: 700; color: var(--ne-text-muted); margin-bottom: 0.4rem;">
+        <label style="display: block; font-size: 0.8rem; font-weight: 800; color: var(--sacco-text-muted); margin-bottom: 0.4rem; text-transform: uppercase;">
           PASSENGER FULL NAME
         </label>
-        <input type="text" name="passenger_name" value="{{ form.passenger_name.value|default:'' }}" required placeholder="e.g. John Doe" style="width: 100%; padding: 0.8rem; border: 1px solid var(--ne-card-border); border-radius: 0.4rem; font-size: 1rem; outline: none;">
+        <input type="text" name="passenger_name" value="{{ form.passenger_name.value|default:'' }}" required placeholder="e.g. John Kamau" style="width: 100%; padding: 0.85rem; border: 1px solid var(--sacco-border); border-radius: 0.5rem; font-size: 1rem; outline: none;">
         {% if form.passenger_name.errors %}
-        <span style="color: var(--ne-red); font-size: 0.85rem; margin-top: 0.2rem; display: block;">{{ form.passenger_name.errors.0 }}</span>
+        <span style="color: #dc2626; font-size: 0.85rem; margin-top: 0.2rem; display: block;">{{ form.passenger_name.errors.0 }}</span>
         {% endif %}
       </div>
 
       <div style="margin-bottom: 1.25rem;">
-        <label style="display: block; font-size: 0.85rem; font-weight: 700; color: var(--ne-text-muted); margin-bottom: 0.4rem;">
+        <label style="display: block; font-size: 0.8rem; font-weight: 800; color: var(--sacco-text-muted); margin-bottom: 0.4rem; text-transform: uppercase;">
           M-PESA PHONE NUMBER
         </label>
-        <input type="text" name="passenger_phone" value="{{ form.passenger_phone.value|default:'' }}" required placeholder="e.g. 0712345678" style="width: 100%; padding: 0.8rem; border: 1px solid var(--ne-card-border); border-radius: 0.4rem; font-size: 1rem; outline: none;">
+        <input type="text" name="passenger_phone" value="{{ form.passenger_phone.value|default:'' }}" required placeholder="e.g. 0712345678" style="width: 100%; padding: 0.85rem; border: 1px solid var(--sacco-border); border-radius: 0.5rem; font-size: 1rem; outline: none;">
         {% if form.passenger_phone.errors %}
-        <span style="color: var(--ne-red); font-size: 0.85rem; margin-top: 0.2rem; display: block;">{{ form.passenger_phone.errors.0 }}</span>
+        <span style="color: #dc2626; font-size: 0.85rem; margin-top: 0.2rem; display: block;">{{ form.passenger_phone.errors.0 }}</span>
         {% endif %}
       </div>
 
       <div style="margin-bottom: 1.75rem;">
-        <label style="display: block; font-size: 0.85rem; font-weight: 700; color: var(--ne-text-muted); margin-bottom: 0.4rem;">
+        <label style="display: block; font-size: 0.8rem; font-weight: 800; color: var(--sacco-text-muted); margin-bottom: 0.4rem; text-transform: uppercase;">
           SEAT NUMBER (1 - {{ trip.bus.total_seats }})
         </label>
-        <input type="number" name="seat_number" value="{{ form.seat_number.value|default:'' }}" required min="1" max="{{ trip.bus.total_seats }}" style="width: 100%; padding: 0.8rem; border: 1px solid var(--ne-card-border); border-radius: 0.4rem; font-size: 1rem; outline: none;">
+        <input type="number" name="seat_number" value="{{ form.seat_number.value|default:'' }}" required min="1" max="{{ trip.bus.total_seats }}" style="width: 100%; padding: 0.85rem; border: 1px solid var(--sacco-border); border-radius: 0.5rem; font-size: 1rem; outline: none;">
         {% if form.seat_number.errors %}
-        <span style="color: var(--ne-red); font-size: 0.85rem; margin-top: 0.2rem; display: block;">{{ form.seat_number.errors.0 }}</span>
+        <span style="color: #dc2626; font-size: 0.85rem; margin-top: 0.2rem; display: block;">{{ form.seat_number.errors.0 }}</span>
         {% endif %}
       </div>
 
-      <button type="submit" class="btn" style="width: 100%; font-size: 1.1rem; padding: 1rem;">
+      <button type="submit" class="btn btn-gold" style="width: 100%; font-size: 1.1rem; padding: 1rem;">
         Proceed to M-Pesa Checkout ➔
       </button>
     </form>

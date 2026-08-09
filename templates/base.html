@@ -15,21 +15,21 @@
   <!-- Top Header Bar -->
   <header class="top-header">
     <div class="header-container">
-      <a href="{% url 'fleets:trip_list' %}" class="brand-logo">
+      <a href="{% url 'fleets:trip_list' %}" class="brand-logo" title="Bus Sacco Homepage">
         <span class="brand-red">bus</span><span class="brand-blue">sacco</span>
       </a>
 
       <nav class="top-nav">
-        <a href="{% url 'fleets:trip_list' %}" class="top-nav-link">Plan your journey ▾</a>
-        <a href="#" class="top-nav-link">Here to help ▾</a>
-        <a href="#" class="top-nav-link">Why we're No. 1 ▾</a>
-        <a href="{% url 'fleets:trip_list' %}" class="top-nav-link">Manage my booking</a>
+        <a href="{% url 'fleets:trip_list' %}#planner-section" class="top-nav-link">Plan your journey ▾</a>
+        <a href="{% url 'notifications:notification_list' %}" class="top-nav-link">Here to help ▾</a>
+        <a href="{% url 'fleets:trip_list' %}#why-us" class="top-nav-link">Why we're No. 1 ▾</a>
+        <a href="{% url 'notifications:notification_list' %}" class="top-nav-link">Manage my booking</a>
       </nav>
 
       <div class="top-right-actions">
-        <span style="font-size: 1.3rem;" title="Kenya">🇰🇪</span>
-        <span style="font-size: 1.2rem;" title="Accessibility">♿</span>
-        <a href="/admin/" class="account-btn" target="_blank">
+        <a href="{% url 'fleets:trip_list' %}" style="font-size: 1.3rem;" title="Kenya (KE)">🇰🇪</a>
+        <button type="button" class="icon-btn" onclick="toggleAccessibility()" title="Toggle High Contrast Mode">♿</button>
+        <a href="/admin/" class="account-btn" target="_blank" title="Go to Admin Dashboard">
           👤 My account
         </a>
       </div>
@@ -42,11 +42,14 @@
       <a href="{% url 'fleets:trip_list' %}" class="sub-nav-item active">
         🚌 Trips
       </a>
-      <a href="#" class="sub-nav-item">
+      <a href="{% url 'fleets:trip_list' %}?event=true" class="sub-nav-item">
         📅 Events
       </a>
       <a href="{% url 'notifications:notification_list' %}" class="sub-nav-item">
         📲 Notification Logs
+      </a>
+      <a href="/admin/" class="sub-nav-item" target="_blank">
+        ⚙ Admin Panel
       </a>
     </div>
   </div>
@@ -68,8 +71,15 @@
   </main>
 
   <footer>
-    <p>&copy; 2026 Bus Sacco. All rights reserved. | Powered by Django &amp; M-Pesa STK Push</p>
+    <p>&copy; 2026 Bus Sacco. All rights reserved. | <a href="{% url 'notifications:notification_list' %}">SMS Logs</a> | <a href="/admin/" target="_blank">Admin Control</a></p>
   </footer>
+
+  <script>
+    function toggleAccessibility() {
+      document.body.classList.toggle('accessibility-mode');
+      alert("Accessibility High-Contrast Mode toggled.");
+    }
+  </script>
 
 </body>
 </html>

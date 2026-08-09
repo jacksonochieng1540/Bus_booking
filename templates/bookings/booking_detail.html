@@ -1,80 +1,88 @@
 {% extends 'base.html' %}
 
-{% block title %}Booking #{{ booking.pk }} Summary - Bus Sacco{% endblock %}
+{% block title %}Booking Ticket #{{ booking.pk }} - Bus Sacco{% endblock %}
 
 {% block content %}
-<div style="max-width: 700px; margin: 0 auto;">
-  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-    <h2>Booking Ticket #{{ booking.pk }}</h2>
+<div style="max-width: 750px; margin: 0 auto;">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+    <h2 style="font-size: 1.8rem; font-weight: 900; color: var(--ne-dark-blue);">
+      Booking Ticket #{{ booking.pk }}
+    </h2>
     {% if booking.status == 'CONFIRMED' %}
-      <span class="badge badge-emerald">CONFIRMED</span>
+      <span class="badge badge-emerald" style="font-size: 0.9rem; padding: 0.4rem 1rem;">✓ CONFIRMED</span>
     {% elif booking.status == 'PENDING' %}
-      <span class="badge badge-amber">PENDING PAYMENT</span>
+      <span class="badge badge-amber" style="font-size: 0.9rem; padding: 0.4rem 1rem;">⏳ PENDING PAYMENT</span>
     {% else %}
-      <span class="badge badge-rose">FAILED</span>
+      <span class="badge badge-rose" style="font-size: 0.9rem; padding: 0.4rem 1rem;">✕ FAILED</span>
     {% endif %}
   </div>
 
   <div class="card" style="margin-bottom: 1.5rem;">
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem;">
       <div>
-        <p style="color: var(--text-muted); font-size: 0.85rem;">PASSENGER NAME</p>
-        <p style="font-weight: 700; font-size: 1.1rem;">{{ booking.passenger_name }}</p>
+        <p style="color: var(--ne-text-muted); font-size: 0.75rem; font-weight: 800;">PASSENGER NAME</p>
+        <p style="font-weight: 800; font-size: 1.15rem; color: var(--ne-dark-blue);">{{ booking.passenger_name }}</p>
       </div>
       <div>
-        <p style="color: var(--text-muted); font-size: 0.85rem;">PHONE NUMBER</p>
-        <p style="font-weight: 700; font-size: 1.1rem;">{{ booking.passenger_phone }}</p>
+        <p style="color: var(--ne-text-muted); font-size: 0.75rem; font-weight: 800;">PHONE NUMBER</p>
+        <p style="font-weight: 800; font-size: 1.15rem; color: var(--ne-dark-blue);">{{ booking.passenger_phone }}</p>
       </div>
       <div>
-        <p style="color: var(--text-muted); font-size: 0.85rem;">ROUTE</p>
-        <p style="font-weight: 700; font-size: 1.1rem;">{{ booking.trip.route.departure_city }} ➔ {{ booking.trip.route.destination_city }}</p>
+        <p style="color: var(--ne-text-muted); font-size: 0.75rem; font-weight: 800;">ROUTE</p>
+        <p style="font-weight: 800; font-size: 1.15rem; color: var(--ne-dark-blue);">{{ booking.trip.route.departure_city }} ➔ {{ booking.trip.route.destination_city }}</p>
       </div>
       <div>
-        <p style="color: var(--text-muted); font-size: 0.85rem;">SEAT ASSIGNED</p>
-        <p style="font-weight: 700; font-size: 1.4rem; color: var(--accent-emerald);">Seat #{{ booking.seat_number }}</p>
+        <p style="color: var(--ne-text-muted); font-size: 0.75rem; font-weight: 800;">SEAT ASSIGNED</p>
+        <p style="font-weight: 900; font-size: 1.5rem; color: var(--ne-green);">Seat #{{ booking.seat_number }}</p>
       </div>
       <div>
-        <p style="color: var(--text-muted); font-size: 0.85rem;">DEPARTURE TIME</p>
-        <p style="font-weight: 600;">{{ booking.trip.departure_time|date:"Y-m-d H:i" }}</p>
+        <p style="color: var(--ne-text-muted); font-size: 0.75rem; font-weight: 800;">DEPARTURE TIME</p>
+        <p style="font-weight: 700; color: var(--ne-text-dark);">{{ booking.trip.departure_time|date:"Y-m-d H:i" }}</p>
       </div>
       <div>
-        <p style="color: var(--text-muted); font-size: 0.85rem;">TOTAL FARE</p>
-        <p style="font-weight: 700; font-size: 1.2rem;">KES {{ booking.trip.route.price }}</p>
+        <p style="color: var(--ne-text-muted); font-size: 0.75rem; font-weight: 800;">TOTAL FARE</p>
+        <p style="font-weight: 900; font-size: 1.4rem; color: var(--ne-dark-blue);">KES {{ booking.trip.route.price }}</p>
       </div>
     </div>
 
     {% if payment %}
-    <div style="border-top: 1px solid var(--border-light); padding-top: 1rem; margin-top: 1rem;">
-      <p style="font-size: 0.85rem; color: var(--text-muted);">PAYMENT STATUS: <strong>{{ payment.status }}</strong></p>
+    <div style="border-top: 1px solid var(--ne-card-border); padding-top: 1rem;">
+      <p style="font-size: 0.9rem; color: var(--ne-text-muted);">
+        PAYMENT STATUS: <strong style="color: var(--ne-dark-blue);">{{ payment.status }}</strong>
+      </p>
       {% if payment.mpesa_receipt_number %}
-      <p style="font-size: 0.85rem; color: var(--accent-emerald);">M-PESA RECEIPT: <strong>{{ payment.mpesa_receipt_number }}</strong></p>
+      <p style="font-size: 0.9rem; color: #15803d; font-weight: 700; margin-top: 0.25rem;">
+        M-PESA RECEIPT: {{ payment.mpesa_receipt_number }}
+      </p>
       {% endif %}
     </div>
     {% endif %}
   </div>
 
   {% if booking.status == 'PENDING' %}
-  <div class="search-card" style="text-align: center;">
-    <h3 style="margin-bottom: 0.5rem;">Complete Payment via M-Pesa</h3>
-    <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem;">
-      Click below to send an STK Push prompt to <strong>{{ booking.passenger_phone }}</strong>.
+  <div class="card" style="text-align: center;">
+    <h3 style="font-size: 1.3rem; font-weight: 800; color: var(--ne-dark-blue); margin-bottom: 0.5rem;">
+      Complete M-Pesa Payment
+    </h3>
+    <p style="color: var(--ne-text-muted); font-size: 0.95rem; margin-bottom: 1.5rem;">
+      Click below to send an M-Pesa STK Push prompt to <strong>{{ booking.passenger_phone }}</strong>.
     </p>
 
-    <form method="POST" action="{% url 'payments:initiate_payment' booking.pk %}" style="display: inline-block; width: 100%;">
+    <form method="POST" action="{% url 'payments:initiate_payment' booking.pk %}" style="display: block; width: 100%;">
       {% csrf_token %}
       <input type="hidden" name="phone_number" value="{{ booking.passenger_phone }}">
-      <button type="submit" class="btn btn-success" style="width: 100%; margin-bottom: 1rem;">
-        Pay KES {{ booking.trip.route.price }} via M-Pesa
+      <button type="submit" class="btn" style="width: 100%; font-size: 1.1rem; padding: 0.9rem; margin-bottom: 1rem;">
+        Pay KES {{ booking.trip.route.price }} via M-Pesa 📱
       </button>
     </form>
 
-    <a href="{% url 'bookings:booking_cancel' booking.pk %}" class="btn btn-danger btn-sm" onclick="return confirm('Cancel this pending booking reservation?');">
+    <a href="{% url 'bookings:booking_cancel' booking.pk %}" class="btn btn-danger" style="padding: 0.5rem 1.25rem; font-size: 0.9rem;" onclick="return confirm('Cancel this pending reservation?');">
       Cancel Reservation
     </a>
   </div>
   {% else %}
-  <div style="text-align: center; margin-top: 1.5rem;">
-    <a href="{% url 'fleets:trip_list' %}" class="btn">Book Another Trip</a>
+  <div style="text-align: center; margin-top: 2rem;">
+    <a href="{% url 'fleets:trip_list' %}" class="btn btn-ocean">Book Another Journey ➔</a>
   </div>
   {% endif %}
 </div>

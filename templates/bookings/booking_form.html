@@ -1,24 +1,32 @@
 {% extends 'base.html' %}
 
-{% block title %}Book Seat - Bus Sacco{% endblock %}
+{% block title %}Passenger Details - Bus Sacco{% endblock %}
 
 {% block content %}
 <div style="margin-bottom: 1.5rem;">
-  <a href="{% url 'fleets:trip_detail' trip.pk %}" class="btn btn-secondary btn-sm">← Back to Seat Selection</a>
+  <a href="{% url 'fleets:trip_detail' trip.pk %}" class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">
+    ← Back to Seat Map
+  </a>
 </div>
 
-<div style="max-width: 600px; margin: 0 auto;">
+<div style="max-width: 650px; margin: 0 auto;">
   <div class="card" style="margin-bottom: 1.5rem;">
-    <h2 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Reservation Details</h2>
-    <p style="color: var(--text-muted); font-size: 0.95rem;">
-      Route: <strong>{{ trip.route.departure_city }} ➔ {{ trip.route.destination_city }}</strong><br>
-      Bus: <strong>{{ trip.bus.plate_number }}</strong> (Max Seats: {{ trip.bus.total_seats }})<br>
-      Departure: <strong>{{ trip.departure_time|date:"Y-m-d H:i" }}</strong><br>
-      Fare Amount: <strong style="color: var(--accent-emerald);">KES {{ trip.route.price }}</strong>
+    <h2 style="font-size: 1.5rem; font-weight: 800; color: var(--ne-dark-blue); margin-bottom: 0.75rem;">
+      Journey Reservation Summary
+    </h2>
+    <p style="color: var(--ne-text-muted); font-size: 1rem; line-height: 1.6;">
+      Route: <strong style="color: var(--ne-text-dark);">{{ trip.route.departure_city }} ➔ {{ trip.route.destination_city }}</strong><br>
+      Coach: <strong style="color: var(--ne-text-dark);">{{ trip.bus.plate_number }}</strong> (Capacity: {{ trip.bus.total_seats }} seats)<br>
+      Departure: <strong style="color: var(--ne-text-dark);">{{ trip.departure_time|date:"Y-m-d H:i" }}</strong><br>
+      Fare: <strong style="color: var(--ne-dark-blue); font-size: 1.2rem;">KES {{ trip.route.price }}</strong>
     </p>
   </div>
 
-  <div class="search-card">
+  <div class="card">
+    <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--ne-dark-blue); margin-bottom: 1.25rem;">
+      Enter Passenger Information
+    </h3>
+
     <form method="POST">
       {% csrf_token %}
       
@@ -30,31 +38,39 @@
       </div>
       {% endif %}
 
-      <div class="form-group" style="margin-bottom: 1rem;">
-        <label for="id_passenger_name">Passenger Full Name</label>
-        <input type="text" name="passenger_name" id="id_passenger_name" value="{{ form.passenger_name.value|default:'' }}" class="input-control" required placeholder="e.g. Jane Doe">
+      <div style="margin-bottom: 1.25rem;">
+        <label style="display: block; font-size: 0.85rem; font-weight: 700; color: var(--ne-text-muted); margin-bottom: 0.4rem;">
+          PASSENGER FULL NAME
+        </label>
+        <input type="text" name="passenger_name" value="{{ form.passenger_name.value|default:'' }}" required placeholder="e.g. John Doe" style="width: 100%; padding: 0.8rem; border: 1px solid var(--ne-card-border); border-radius: 0.4rem; font-size: 1rem; outline: none;">
         {% if form.passenger_name.errors %}
-        <span style="color: #f87171; font-size: 0.85rem;">{{ form.passenger_name.errors.0 }}</span>
+        <span style="color: var(--ne-red); font-size: 0.85rem; margin-top: 0.2rem; display: block;">{{ form.passenger_name.errors.0 }}</span>
         {% endif %}
       </div>
 
-      <div class="form-group" style="margin-bottom: 1rem;">
-        <label for="id_passenger_phone">M-Pesa Phone Number</label>
-        <input type="text" name="passenger_phone" id="id_passenger_phone" value="{{ form.passenger_phone.value|default:'' }}" class="input-control" required placeholder="e.g. 0712345678">
+      <div style="margin-bottom: 1.25rem;">
+        <label style="display: block; font-size: 0.85rem; font-weight: 700; color: var(--ne-text-muted); margin-bottom: 0.4rem;">
+          M-PESA PHONE NUMBER
+        </label>
+        <input type="text" name="passenger_phone" value="{{ form.passenger_phone.value|default:'' }}" required placeholder="e.g. 0712345678" style="width: 100%; padding: 0.8rem; border: 1px solid var(--ne-card-border); border-radius: 0.4rem; font-size: 1rem; outline: none;">
         {% if form.passenger_phone.errors %}
-        <span style="color: #f87171; font-size: 0.85rem;">{{ form.passenger_phone.errors.0 }}</span>
+        <span style="color: var(--ne-red); font-size: 0.85rem; margin-top: 0.2rem; display: block;">{{ form.passenger_phone.errors.0 }}</span>
         {% endif %}
       </div>
 
-      <div class="form-group" style="margin-bottom: 1.5rem;">
-        <label for="id_seat_number">Seat Number (1 - {{ trip.bus.total_seats }})</label>
-        <input type="number" name="seat_number" id="id_seat_number" value="{{ form.seat_number.value|default:'' }}" class="input-control" required min="1" max="{{ trip.bus.total_seats }}">
+      <div style="margin-bottom: 1.75rem;">
+        <label style="display: block; font-size: 0.85rem; font-weight: 700; color: var(--ne-text-muted); margin-bottom: 0.4rem;">
+          SEAT NUMBER (1 - {{ trip.bus.total_seats }})
+        </label>
+        <input type="number" name="seat_number" value="{{ form.seat_number.value|default:'' }}" required min="1" max="{{ trip.bus.total_seats }}" style="width: 100%; padding: 0.8rem; border: 1px solid var(--ne-card-border); border-radius: 0.4rem; font-size: 1rem; outline: none;">
         {% if form.seat_number.errors %}
-        <span style="color: #f87171; font-size: 0.85rem;">{{ form.seat_number.errors.0 }}</span>
+        <span style="color: var(--ne-red); font-size: 0.85rem; margin-top: 0.2rem; display: block;">{{ form.seat_number.errors.0 }}</span>
         {% endif %}
       </div>
 
-      <button type="submit" class="btn" style="width: 100%;">Proceed to Payment</button>
+      <button type="submit" class="btn" style="width: 100%; font-size: 1.1rem; padding: 1rem;">
+        Proceed to M-Pesa Checkout ➔
+      </button>
     </form>
   </div>
 </div>

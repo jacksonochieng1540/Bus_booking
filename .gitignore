@@ -30,10 +30,18 @@ db.sqlite3-journal
 media/
 staticfiles/
 
-# Environment & Secrets
+# Environment Variables & Secrets (NEVER COMMIT TO GITHUB)
 .env
-.env.local
-.env.production
+.env.*
+!.env.example
+*.pem
+*.key
+*.cert
+
+# Node / Svelte Frontend
+node_modules/
+frontend/node_modules/
+frontend/dist/
 
 # IDE & OS
 .vscode/

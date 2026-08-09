@@ -1,67 +1,121 @@
 {% extends 'base.html' %}
 
-{% block title %}Available Trips - Bus Sacco{% endblock %}
+{% block title %}Choose your journey - Bus Sacco{% endblock %}
 
-{% block content %}
-<section class="hero">
-  <h1>Book Bus Seats Instantly</h1>
-  <p>Find luxury bus routes, inspect live seat maps, and confirm your booking securely via M-Pesa.</p>
-</section>
-
-<div class="search-card">
-  <form method="GET" action="{% url 'fleets:trip_list' %}" class="search-form">
-    <div class="form-group">
-      <label for="departure">Departure City</label>
-      <input type="text" id="departure" name="departure" value="{{ departure }}" placeholder="e.g. Nairobi" class="input-control">
-    </div>
-
-    <div class="form-group">
-      <label for="destination">Destination City</label>
-      <input type="text" id="destination" name="destination" value="{{ destination }}" placeholder="e.g. Mombasa" class="input-control">
-    </div>
-
-    <div class="form-group">
-      <button type="submit" class="btn">Search Routes</button>
-    </div>
-  </form>
-</div>
-
-<h2>Scheduled Trips</h2>
-<p style="color: var(--text-muted); margin-bottom: 1.5rem;">Select a trip to view its live seat layout and place a reservation.</p>
-
-{% if trip_data %}
-<div class="grid">
-  {% for item in trip_data %}
-  <div class="card">
-    <div>
-      <div class="card-header">
-        <span class="badge {% if item.available_seats > 5 %}badge-emerald{% else %}badge-amber{% endif %}">
-          {{ item.available_seats }} / {{ item.trip.bus.total_seats }} Seats Left
-        </span>
-        <span class="price-tag">KES {{ item.trip.route.price }}</span>
+{% block banner %}
+<!-- Ocean Blue Journey Planner -->
+<section class="planner-section">
+  <div class="planner-container">
+    <div class="planner-header">
+      <h2 class="planner-title">Choose your journey</h2>
+      
+      <div class="trip-type-toggle">
+        <button type="button" class="toggle-btn active">✓ Single</button>
+        <button type="button" class="toggle-btn">Return</button>
       </div>
-
-      <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem;">
-        {{ item.trip.route.departure_city }} ➔ {{ item.trip.route.destination_city }}
-      </h3>
-
-      <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">
-        📅 Departure: <strong>{{ item.trip.departure_time|date:"Y-m-d H:i" }}</strong><br>
-        🚍 Bus Plate: <strong>{{ item.trip.bus.plate_number }}</strong>
-      </p>
     </div>
 
-    <div>
-      <a href="{% url 'fleets:trip_detail' item.trip.pk %}" class="btn" style="width: 100%;">
-        Inspect Seat Map &amp; Book
-      </a>
+    <form method="GET" action="{% url 'fleets:trip_list' %}">
+      <div class="planner-form-row">
+        <div class="input-box">
+          <label>Travel from</label>
+          <input type="text" name="departure" value="{{ departure }}" placeholder="Departure City (e.g. Nairobi)">
+        </div>
+
+        <button type="button" class="swap-btn" title="Swap cities">⇄</button>
+
+        <div class="input-box">
+          <label>Travel to</label>
+          <input type="text" name="destination" value="{{ destination }}" placeholder="Destination City (e.g. Mombasa)">
+        </div>
+
+        <div class="input-box">
+          <label>Departure Date</label>
+          <input type="text" value="Sun 09 Aug 📅" readonly style="cursor: pointer;">
+        </div>
+
+        <div class="input-box">
+          <label>Passengers</label>
+          <select style="cursor: pointer;">
+            <option>1 Passenger</option>
+            <option>2 Passengers</option>
+            <option>3 Passengers</option>
+            <option>4 Passengers</option>
+          </select>
+        </div>
+
+        <div>
+          <button type="submit" class="btn-search-cta">
+            Find your journey ➔
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <div class="payment-methods-bar">
+      <span>We accept:</span>
+      <span class="pm-badge mpesa">M-PESA</span>
+      <span class="pm-badge visa">VISA</span>
+      <span class="pm-badge mastercard">MasterCard</span>
+      <span class="pm-badge paypal">PayPal</span>
+      <span class="pm-badge applepay">Pay</span>
+      <span class="pm-badge gpay">G Pay</span>
     </div>
   </div>
-  {% endfor %}
+</section>
+
+<!-- Scenic Coach Hero Banner -->
+<section class="hero-image-banner">
+  <div class="hero-content">
+    <h1>Travel with Bus Sacco:<br>Cheap coach tickets nationwide</h1>
+    <p>Comfortable express coach travel across Kenya with instant M-Pesa booking &amp; seat selection.</p>
+  </div>
+</section>
+{% endblock %}
+
+{% block content %}
+<div style="margin-top: 1rem;">
+  <h2 style="font-size: 1.8rem; font-weight: 800; color: var(--ne-dark-blue); margin-bottom: 0.5rem;">
+    Available Journeys
+  </h2>
+  <p style="color: var(--ne-text-muted); margin-bottom: 1.5rem;">
+    Select your preferred coach departure to view available seat numbers.
+  </p>
+
+  {% if trip_data %}
+  <div class="grid">
+    {% for item in trip_data %}
+    <div class="card">
+      <div>
+        <div class="card-header">
+          <span class="badge {% if item.available_seats > 5 %}badge-emerald{% else %}badge-amber{% endif %}">
+            {{ item.available_seats }} / {{ item.trip.bus.total_seats }} Seats Left
+          </span>
+          <span class="price-tag">KES {{ item.trip.route.price }}</span>
+        </div>
+
+        <h3 style="font-size: 1.3rem; font-weight: 800; color: var(--ne-dark-blue); margin-bottom: 0.5rem;">
+          {{ item.trip.route.departure_city }} ➔ {{ item.trip.route.destination_city }}
+        </h3>
+
+        <p style="color: var(--ne-text-muted); font-size: 0.95rem; margin-bottom: 1.25rem; line-height: 1.5;">
+          📅 Departure: <strong>{{ item.trip.departure_time|date:"Y-m-d H:i" }}</strong><br>
+          🚍 Coach Plate: <strong>{{ item.trip.bus.plate_number }}</strong>
+        </p>
+      </div>
+
+      <div>
+        <a href="{% url 'fleets:trip_detail' item.trip.pk %}" class="btn" style="width: 100%;">
+          Select Seats &amp; Book ➔
+        </a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="card" style="text-align: center; padding: 3rem 1.5rem;">
+    <p style="color: var(--ne-text-muted); font-size: 1.1rem;">No scheduled journeys found for your search criteria.</p>
+  </div>
+  {% endif %}
 </div>
-{% else %}
-<div class="card" style="text-align: center; padding: 3rem 1.5rem;">
-  <p style="color: var(--text-muted); font-size: 1.1rem;">No scheduled trips found matching your search.</p>
-</div>
-{% endif %}
 {% endblock %}

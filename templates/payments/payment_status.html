@@ -1,32 +1,34 @@
 {% extends 'base.html' %}
 
-{% block title %}M-Pesa Payment Status - Bus Sacco{% endblock %}
+{% block title %}M-Pesa Payment Prompt - Bus Sacco{% endblock %}
 
 {% block content %}
-<div style="max-width: 600px; margin: 0 auto; text-align: center;">
-  <div class="search-card">
-    <h2 style="font-size: 1.8rem; margin-bottom: 1rem;">M-Pesa Payment Prompt Sent</h2>
+<div style="max-width: 650px; margin: 0 auto; text-align: center;">
+  <div class="card">
+    <h2 style="font-size: 1.8rem; font-weight: 900; color: var(--ne-dark-blue); margin-bottom: 1rem;">
+      M-Pesa Payment Prompt Sent 📱
+    </h2>
     
-    <div style="background: rgba(99, 102, 241, 0.1); border: 1px solid var(--primary); border-radius: 0.5rem; padding: 1.25rem; margin-bottom: 1.5rem;">
-      <p style="font-size: 1.1rem; margin-bottom: 0.5rem;">
-        An M-Pesa STK Push popup has been sent to <strong>{{ payment.phone_number }}</strong>.
+    <div style="background: #e0f2fe; border: 1px solid #7dd3fc; border-radius: 0.5rem; padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
+      <p style="font-size: 1.1rem; color: #075985; font-weight: 700; margin-bottom: 0.5rem;">
+        An M-Pesa STK Push prompt was dispatched to <strong>{{ payment.phone_number }}</strong>.
       </p>
-      <p style="color: var(--text-muted); font-size: 0.95rem;">
+      <p style="color: #0369a1; font-size: 0.95rem; line-height: 1.5;">
         Amount: <strong>KES {{ payment.amount }}</strong><br>
-        Request ID: <code>{{ payment.checkout_request_id }}</code>
+        Request Checkout ID: <code>{{ payment.checkout_request_id }}</code>
       </p>
     </div>
 
-    <p style="color: var(--text-muted); margin-bottom: 1.5rem; font-size: 0.9rem;">
-      (For demonstration & testing, trigger the simulated payment gateway callback below)
+    <p style="color: var(--ne-text-muted); margin-bottom: 1.5rem; font-size: 0.9rem;">
+      (For demonstration &amp; testing, simulate the M-Pesa network callback action below)
     </p>
 
     <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-      <a href="{% url 'payments:simulate_callback' payment.pk %}?action=success" class="btn btn-success">
-        ✓ Simulate Successful Payment
+      <a href="{% url 'payments:simulate_callback' payment.pk %}?action=success" class="btn">
+        ✓ Simulate M-Pesa Success
       </a>
       <a href="{% url 'payments:simulate_callback' payment.pk %}?action=fail" class="btn btn-danger">
-        ✕ Simulate Payment Failure
+        ✕ Simulate M-Pesa Failure
       </a>
     </div>
   </div>

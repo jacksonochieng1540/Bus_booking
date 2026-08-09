@@ -4,27 +4,56 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %}Bus Sacco - Standard Transit & Booking{% endblock %}</title>
+  <title>{% block title %}Bus Sacco - Cheap coach tickets nationwide{% endblock %}</title>
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
 <body>
-  <header>
-    <div class="nav-container">
-      <a href="{% url 'fleets:trip_list' %}" class="brand">
-        🚌 Bus Sacco
+
+  <!-- Top Header Bar -->
+  <header class="top-header">
+    <div class="header-container">
+      <a href="{% url 'fleets:trip_list' %}" class="brand-logo">
+        <span class="brand-red">bus</span><span class="brand-blue">sacco</span>
       </a>
-      <nav class="nav-links">
-        <a href="{% url 'fleets:trip_list' %}" class="nav-link">Trips & Routes</a>
-        <a href="{% url 'notifications:notification_list' %}" class="nav-link">Notification Logs</a>
-        <a href="/admin/" class="btn btn-secondary btn-sm" target="_blank">Admin Panel</a>
+
+      <nav class="top-nav">
+        <a href="{% url 'fleets:trip_list' %}" class="top-nav-link">Plan your journey ▾</a>
+        <a href="#" class="top-nav-link">Here to help ▾</a>
+        <a href="#" class="top-nav-link">Why we're No. 1 ▾</a>
+        <a href="{% url 'fleets:trip_list' %}" class="top-nav-link">Manage my booking</a>
       </nav>
+
+      <div class="top-right-actions">
+        <span style="font-size: 1.3rem;" title="Kenya">🇰🇪</span>
+        <span style="font-size: 1.2rem;" title="Accessibility">♿</span>
+        <a href="/admin/" class="account-btn" target="_blank">
+          👤 My account
+        </a>
+      </div>
     </div>
   </header>
 
-  <main class="container">
+  <!-- Dark Sub-Header Navigation Bar -->
+  <div class="sub-header">
+    <div class="sub-header-container">
+      <a href="{% url 'fleets:trip_list' %}" class="sub-nav-item active">
+        🚌 Trips
+      </a>
+      <a href="#" class="sub-nav-item">
+        📅 Events
+      </a>
+      <a href="{% url 'notifications:notification_list' %}" class="sub-nav-item">
+        📲 Notification Logs
+      </a>
+    </div>
+  </div>
+
+  {% block banner %}{% endblock %}
+
+  <main class="main-container">
     {% if messages %}
     <div class="alert-container">
       {% for message in messages %}
@@ -39,7 +68,8 @@
   </main>
 
   <footer>
-    <p>&copy; 2026 Bus Sacco Transit Application. Built with Django &amp; M-Pesa Integration.</p>
+    <p>&copy; 2026 Bus Sacco. All rights reserved. | Powered by Django &amp; M-Pesa STK Push</p>
   </footer>
+
 </body>
 </html>

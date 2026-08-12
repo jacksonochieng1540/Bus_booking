@@ -26,6 +26,8 @@ RUN useradd -m -u 1000 appuser
 COPY --from=builder /root/.local /home/appuser/.local
 COPY --chown=appuser:appuser . .
 
+RUN mkdir -p /app/staticfiles && chown appuser:appuser /app/staticfiles
+
 USER appuser
 
 RUN python manage.py collectstatic --noinput
